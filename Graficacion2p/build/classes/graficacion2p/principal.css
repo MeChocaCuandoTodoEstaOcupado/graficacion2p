@@ -1,0 +1,10 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.tab-triangulo {
+    -fx-background-color: #009900;
+}
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: #000000;
+}
