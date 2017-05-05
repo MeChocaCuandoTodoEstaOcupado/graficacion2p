@@ -6,9 +6,7 @@
 package graficacion2p;
 
 import java.util.ArrayList;
-import javafx.collections.ObservableList;
-import javafx.scene.Node;
-import javafx.scene.shape.Rectangle;
+
 
 /**
  *
@@ -26,31 +24,34 @@ public class Rellenador {
             }
         }
         mat[pixel.x][pixel.y]=2;
+        relleno.add(pixel);
         vecinos4(pixel);
         return relleno;
     }
     private void vecinos4(Pixel p){
+        
         if(p.x-1>=0 && p.x+1<300 && p.y-1>=0 && p.y+1<300){
-            if(mat[p.x][p.y-1]==0){
-                mat[p.x][p.y-1]=2;
-                relleno.add(p);
-                vecinos4(new Pixel(p.x,p.y-1));
-            }
-            if(mat[p.x-1][p.y]==0){
-                mat[p.x-1][p.y]=2;
-                relleno.add(p);
-                vecinos4(new Pixel(p.x-1,p.y));
-            }
             if(mat[p.x][p.y+1]==0){
                 mat[p.x][p.y+1]=2;
-                relleno.add(p);
+                relleno.add(new Pixel(p.x,p.y+1));
                 vecinos4(new Pixel(p.x,p.y+1));
             }
             if(mat[p.x+1][p.y]==0){
                 mat[p.x+1][p.y]=2;
-                relleno.add(p);
+                relleno.add(new Pixel(p.x+1,p.y));
                 vecinos4(new Pixel(p.x+1,p.y));
             }
+            if(mat[p.x-1][p.y]==0){
+                mat[p.x-1][p.y]=2;
+                relleno.add(new Pixel(p.x-1,p.y));
+                vecinos4(new Pixel(p.x-1,p.y));
+            }
+            if(mat[p.x][p.y-1]==0){
+                mat[p.x][p.y-1]=2;
+                relleno.add(new Pixel(p.x,p.y-1));
+                vecinos4(new Pixel(p.x,p.y-1));
+            }
+            
         }
     }
 }
