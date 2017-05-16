@@ -7,14 +7,19 @@ package graficacion2p;
 
 
 import java.io.File;
+import static java.lang.Thread.sleep;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -30,6 +35,7 @@ import javafx.scene.shape.Rectangle;
  * @author ASUS PC
  */
 public class Controlador implements Initializable {
+    Transformador t = new Transformador();
     Rellenador rell= new Rellenador();
     ArrayList<Pixel> puntos;
     Circulo cir = new Circulo();
@@ -40,6 +46,7 @@ public class Controlador implements Initializable {
     @FXML private TextField x1tri,y1tri,x2tri,y2tri,x3tri,y3tri;
     @FXML private Pane paneCuad,paneCir,paneTri,paneLin;
     @FXML private ImageView imageView,imageView1,imageView2,imageView3;
+    @FXML private MenuButton menu,menu1,menu2;
     
     @FXML
     private void dCirculo(ActionEvent event) {
@@ -50,7 +57,7 @@ public class Controlador implements Initializable {
         puntos = new ArrayList<>();
         puntos.addAll(cir.bresenham(r, cx, cy));
         for( Pixel pixel :puntos){
-            Rectangle rec = new Rectangle(pixel.x, pixel.y, 1, 1);
+            Rectangle rec = new Rectangle(pixel.x*5, pixel.y*5, 5, 5);
             rec.setFill(colorcir.getValue());
             paneCir.getChildren().add(rec);
         }
@@ -61,7 +68,7 @@ public class Controlador implements Initializable {
         int x = Integer.parseInt(cx.getText());
         int y = Integer.parseInt(cy.getText());
         for( Pixel pixel :rell.vecinos4(new Pixel(x,y), puntos)){
-            Rectangle rec = new Rectangle(pixel.x, pixel.y, 1, 1);
+            Rectangle rec = new Rectangle(pixel.x*5, pixel.y*5, 5, 5);
             rec.setFill(colorcir.getValue());
             paneCir.getChildren().add(rec);
         }
@@ -81,7 +88,7 @@ public class Controlador implements Initializable {
         puntos.addAll(lin.dda(x1, y1, x3,y3));
         puntos.addAll(lin.dda(x2, y2, x3, y3));
         for ( Pixel pixel :puntos){
-            Rectangle rec = new Rectangle(pixel.x, pixel.y, 1, 1);
+            Rectangle rec = new Rectangle(pixel.x*5, pixel.y*5, 5, 5);
             rec.setFill(colortri.getValue());
             paneTri.getChildren().add(rec);
         }        
@@ -99,19 +106,19 @@ public class Controlador implements Initializable {
         int y=a.get((a.size()-1)/2).y;
         if (Math.abs(x1-x2)<Math.abs(y1-y2)){
             if(x<x3){
-                x++;
+                x+=1;
             }else{
-                x--;
+                x-=1;
             }
         }else{
             if(y<y3){
-                y++;
+                y+=1;
             }else{
-                y--;
+                y-=1;
             }
         }
         for( Pixel pixel :rell.vecinos4(new Pixel(x,y), puntos)){
-            Rectangle rec = new Rectangle(pixel.x, pixel.y, 1, 1);
+            Rectangle rec = new Rectangle(pixel.x*5, pixel.y*5, 5, 5);
             rec.setFill(colortri.getValue());
             paneTri.getChildren().add(rec);
         }
@@ -129,7 +136,7 @@ public class Controlador implements Initializable {
         puntos.addAll(lin.dda(x+lado, y+lado, x, y+lado));
         puntos.addAll(lin.dda(x, y+lado, x, y));
         for ( Pixel pixel :puntos){
-            Rectangle rec = new Rectangle(pixel.x, pixel.y, 1, 1);
+            Rectangle rec = new Rectangle(pixel.x*5, pixel.y*5, 5, 5);
             rec.setFill(colorCuad.getValue());
             paneCuad.getChildren().add(rec);
         }
@@ -140,14 +147,14 @@ public class Controlador implements Initializable {
         int x = Integer.parseInt(xCuad.getText());
         int y = Integer.parseInt(yCuad.getText());
         for( Pixel pixel :rell.vecinos4(new Pixel(x+1,y+1), puntos)){
-            Rectangle rec = new Rectangle(pixel.x, pixel.y, 1, 1);
+            Rectangle rec = new Rectangle(pixel.x*5, pixel.y*5, 5, 5);
             rec.setFill(colorCuad.getValue());
             paneCuad.getChildren().add(rec);
         }
         
     }
     @FXML
-    private void dLinea(ActionEvent event) {
+    private void dLinea(ActionEvent event) throws InterruptedException {
         int x1 = Integer.parseInt(x1lin.getText());
         int y1 = Integer.parseInt(y1lin.getText());
         int x2 = Integer.parseInt(x2lin.getText());
@@ -156,13 +163,44 @@ public class Controlador implements Initializable {
         puntos = new ArrayList<>();
         puntos.addAll(lin.dda(x1, y1, x2, y2));
         for ( Pixel pixel :puntos){
-            Rectangle rec = new Rectangle(pixel.x, pixel.y, 1, 1);
+            Rectangle rec = new Rectangle(pixel.x*5, pixel.y*5, 5, 5);
             rec.setFill(colorlin.getValue());
             paneLin.getChildren().add(rec);
+            
         }
         
     }
-    
+    public void transladar(Pane pane,ColorPicker color){
+        pane.getChildren().clear();
+        t.trasladar(puntos, new Pixel(5,5));
+        for ( Pixel pixel :puntos){
+            Rectangle rec = new Rectangle(pixel.x*5, pixel.y*5, 5, 5);
+            rec.setFill(color.getValue());
+            pane.getChildren().add(rec);
+            
+        }
+    }
+    public void rotar(Pane pane,ColorPicker color){
+        pane.getChildren().clear();
+        t.rotar(puntos,Math.PI);
+        for ( Pixel pixel :puntos){
+            Rectangle rec = new Rectangle(pixel.x*5, pixel.y*5, 5, 5);
+            rec.setFill(color.getValue());
+            pane.getChildren().add(rec);
+            System.out.println(pixel.x+" "+pixel.y);
+            System.out.println(Math.cos(Math.PI/2));
+        }
+    }
+    public void escalar(Pane pane,ColorPicker color){
+        pane.getChildren().clear();
+        puntos=t.escalar(puntos, 5);
+        for ( Pixel pixel :puntos){
+            Rectangle rec = new Rectangle(pixel.x, pixel.y, 5, 5);
+            rec.setFill(color.getValue());
+            pane.getChildren().add(rec);
+            
+        }
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         File file = new File("src/imagen/cuadrados.jpg");
@@ -181,6 +219,72 @@ public class Controlador implements Initializable {
         paneCir.setBackground(new Background(new BackgroundFill(Color.GHOSTWHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         paneTri.setBackground(new Background(new BackgroundFill(Color.GHOSTWHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         paneLin.setBackground(new Background(new BackgroundFill(Color.GHOSTWHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        MenuItem item = new MenuItem("transladar");
+        item.setOnAction(a->{ 
+            transladar(paneCuad,colorCuad);
+        });
+        menu.getItems().add(item);
+        MenuItem item2 = new MenuItem("rotar");
+        item2.setOnAction(a->{ 
+            rotar(paneCuad,colorCuad);
+        });
+        menu.getItems().add(item2);
+        MenuItem item3 = new MenuItem("escalar");
+        item3.setOnAction(a->{
+            int x = Integer.parseInt(xCuad.getText());
+            int y = Integer.parseInt(yCuad.getText());
+            int lado = Integer.parseInt(ladoCuad.getText());
+            puntos.clear();
+            puntos.add(new Pixel(x, y));
+            puntos.add(new Pixel(x+lado, y));
+            puntos.add(new Pixel(x+lado, y+lado));
+            puntos.add(new Pixel(x, y+lado));
+            escalar(paneCuad,colorCuad);
+        });
+        menu.getItems().add(item3);
+        MenuItem itemt = new MenuItem("transladar");
+        itemt.setOnAction(a->{ 
+            transladar(paneTri,colortri);
+        });
+        menu1.getItems().add(itemt);
+        MenuItem itemt2 = new MenuItem("rotar");
+        itemt2.setOnAction(a->{ 
+            rotar(paneTri,colortri);
+        });
+        menu1.getItems().add(itemt2);
+        MenuItem itemt3 = new MenuItem("escalar");
+        itemt3.setOnAction(a->{
+            int x1 = Integer.parseInt(x1tri.getText());
+            int y1 = Integer.parseInt(y1tri.getText());
+            int x2 = Integer.parseInt(x2tri.getText());
+            int y2 = Integer.parseInt(y2tri.getText());
+            int x3 = Integer.parseInt(x3tri.getText());
+            int y3 = Integer.parseInt(y3tri.getText());
+            puntos.clear();
+            puntos.add(new Pixel(x1,y1));
+            puntos.add(new Pixel(x2,y2));
+            puntos.add(new Pixel(x3,y3));
+            escalar(paneTri,colortri);
+        });
+        menu1.getItems().add(itemt3);
+        MenuItem itemc = new MenuItem("transladar");
+        itemc.setOnAction(a->{ 
+            transladar(paneCir,colorcir);
+        });
+        menu2.getItems().add(itemc);
+        MenuItem itemc2 = new MenuItem("rotar");
+        itemc2.setOnAction(a->{ 
+            rotar(paneCir,colorcir);
+        });
+        menu2.getItems().add(itemc2);
+        MenuItem itemc3 = new MenuItem("escalar");
+        itemc3.setOnAction(a->{ 
+            int r=Integer.parseInt(this.r.getText())*5;
+            this.r.setText(Integer.toString(r));
+            dCirculo(new ActionEvent());
+        });
+        menu2.getItems().add(itemc3);
     }    
     
 }
+
