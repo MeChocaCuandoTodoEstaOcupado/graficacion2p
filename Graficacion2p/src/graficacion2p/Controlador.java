@@ -10,6 +10,7 @@ import java.io.File;
 import static java.lang.Thread.sleep;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,6 +22,7 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -171,8 +173,26 @@ public class Controlador implements Initializable {
         
     }
     public void transladar(Pane pane,ColorPicker color){
+        TextInputDialog dialog = new TextInputDialog("0");
+	dialog.setTitle("transladar");
+	dialog.setHeaderText("mover en x:");
+	Optional<String> result = dialog.showAndWait();
+	String entered = "none.";
+	if (result.isPresent()) {	 
+	    entered = result.get();
+	}
+        int x = Integer.parseInt(entered);
+        TextInputDialog dialog1 = new TextInputDialog("0");
+	dialog.setTitle("transladar");
+	dialog.setHeaderText("mover en y:");
+	Optional<String> result1 = dialog.showAndWait();
+	String entered1 = "none.";
+	if (result1.isPresent()) {	 
+	    entered1 = result.get();
+	}
+        int y = Integer.parseInt(entered);
         pane.getChildren().clear();
-        t.trasladar(puntos, new Pixel(5,5));
+        t.trasladar(puntos, new Pixel(x,y));
         for ( Pixel pixel :puntos){
             Rectangle rec = new Rectangle(pixel.x*5, pixel.y*5, 5, 5);
             rec.setFill(color.getValue());
@@ -181,19 +201,38 @@ public class Controlador implements Initializable {
         }
     }
     public void rotar(Pane pane,ColorPicker color){
+        TextInputDialog dialog = new TextInputDialog("180");
+	dialog.setTitle("rotar");
+	dialog.setHeaderText("angulo grados:");
+	Optional<String> result = dialog.showAndWait();
+	String entered = "none.";
+	if (result.isPresent()) {	 
+	    entered = result.get();
+	}
+	//actionStatus.setText("Text entered: " + entered);
+        double a = Integer.parseInt(entered);
+        a = Math.PI*a/180;
         pane.getChildren().clear();
-        t.rotar(puntos,Math.PI);
+        t.rotar(puntos,a);
         for ( Pixel pixel :puntos){
             Rectangle rec = new Rectangle(pixel.x*5, pixel.y*5, 5, 5);
             rec.setFill(color.getValue());
             pane.getChildren().add(rec);
-            System.out.println(pixel.x+" "+pixel.y);
-            System.out.println(Math.cos(Math.PI/2));
         }
     }
     public void escalar(Pane pane,ColorPicker color){
+        TextInputDialog dialog = new TextInputDialog("1");
+	dialog.setTitle("escalar");
+	dialog.setHeaderText("S:");
+	Optional<String> result = dialog.showAndWait();
+	String entered = "none.";
+	if (result.isPresent()) {	 
+	    entered = result.get();
+	}
+	//actionStatus.setText("Text entered: " + entered);
+        int s = Integer.parseInt(entered);
         pane.getChildren().clear();
-        puntos=t.escalar(puntos, 5);
+        puntos=t.escalar(puntos, s);
         for ( Pixel pixel :puntos){
             Rectangle rec = new Rectangle(pixel.x, pixel.y, 5, 5);
             rec.setFill(color.getValue());
