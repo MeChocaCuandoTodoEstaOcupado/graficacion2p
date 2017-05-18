@@ -221,9 +221,9 @@ public class Controlador implements Initializable {
         }
     }
     public void escalar(Pane pane,ColorPicker color){
-        TextInputDialog dialog = new TextInputDialog("1");
+        TextInputDialog dialog = new TextInputDialog("100");
 	dialog.setTitle("escalar");
-	dialog.setHeaderText("S:");
+	dialog.setHeaderText("S en %:");
 	Optional<String> result = dialog.showAndWait();
 	String entered = "none.";
 	if (result.isPresent()) {	 
@@ -234,7 +234,7 @@ public class Controlador implements Initializable {
         pane.getChildren().clear();
         puntos=t.escalar(puntos, s);
         for ( Pixel pixel :puntos){
-            Rectangle rec = new Rectangle(pixel.x, pixel.y, 5, 5);
+            Rectangle rec = new Rectangle(pixel.x*5, pixel.y*5, 5, 5);
             rec.setFill(color.getValue());
             pane.getChildren().add(rec);
             

@@ -18,8 +18,8 @@ public class Transformador {
         Linea lin=new Linea();
         ArrayList<Pixel> p = new ArrayList<>();
         for (Pixel pixel:puntos){
-            pixel.x = ((pixel.x-x0)*s)+x0;
-            pixel.y = ((pixel.y-y0)*s)+y0;
+            pixel.x = ((pixel.x-x0)*s/100)+x0;
+            pixel.y = ((pixel.y-y0)*s/100)+y0;
         }
         p.addAll(lin.dda(puntos.get(0).x, puntos.get(0).y, puntos.get(puntos.size()-1).x, puntos.get(puntos.size()-1).y));
         for (int i=0;i<puntos.size();i++){
