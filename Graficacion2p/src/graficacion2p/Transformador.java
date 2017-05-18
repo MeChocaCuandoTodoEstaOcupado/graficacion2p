@@ -5,6 +5,7 @@
  */
 package graficacion2p;
 
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 /**
@@ -39,8 +40,10 @@ public class Transformador {
      public ArrayList<Pixel> rotar(ArrayList<Pixel> puntos,double grado){
         int x0 = puntos.get(0).x;
         int y0 = puntos.get(0).y;
-        double cos = Math.cos(grado);
-        double sen = Math.sin(grado);
+        double cos = Math.cos(grado*Math.PI/180);
+        double sen = Math.sin(grado*Math.PI/180);
+        //Graphics2D g2 = (Graphics2D) g;
+        
         for (Pixel pixel:puntos){
             pixel.x = ((int)Math.round(((pixel.x-x0)*cos)-((pixel.y-y0)*sen))+x0);
             pixel.y = ((int)(((pixel.y-y0)*cos)+((pixel.x-x0)*sen))+y0);

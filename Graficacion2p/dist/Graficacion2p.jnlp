@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="Graficacion2p.jar" size="259086" download="eager" />
+    <jar href="Graficacion2p.jar" size="259158" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="Graficacion2p" >
     <param name="requiredFXVersion" value="8.0+"/>

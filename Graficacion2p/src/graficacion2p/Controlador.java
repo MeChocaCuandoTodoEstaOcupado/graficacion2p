@@ -210,10 +210,10 @@ public class Controlador implements Initializable {
 	    entered = result.get();
 	}
 	//actionStatus.setText("Text entered: " + entered);
-        double a = Integer.parseInt(entered);
-        a = Math.PI*a/180;
+        double gr = Integer.parseInt(entered);
+        double rad = (gr*Math.PI)/180; //convertimos a rad
         pane.getChildren().clear();
-        t.rotar(puntos,a);
+        t.rotar(puntos,rad);
         for ( Pixel pixel :puntos){
             Rectangle rec = new Rectangle(pixel.x*5, pixel.y*5, 5, 5);
             rec.setFill(color.getValue());
