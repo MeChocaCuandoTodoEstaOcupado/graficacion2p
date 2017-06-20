@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="475.0" prefWidth="653.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fractales.FXMLDocumentController">
+    <children>
+      <TabPane prefHeight="475.0" prefWidth="718.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Cuadrado">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Pane fx:id="p" layoutX="40.0" layoutY="46.0" prefHeight="369.0" prefWidth="506.0" />
+                        <Button layoutX="587.0" layoutY="83.0" mnemonicParsing="false" onAction="#cuadradoS" text="Iterar" />
+                        <Button layoutX="583.0" layoutY="118.0" mnemonicParsing="false" onAction="#CuadradoR" text="Resetear" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Triangulo">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Pane fx:id="p2" layoutX="38.0" layoutY="40.0" prefHeight="369.0" prefWidth="506.0" />
+                        <Button layoutX="595.0" layoutY="81.0" mnemonicParsing="false" onAction="#trianguloS" text="Iterar" />
+                        <Button layoutX="591.0" layoutY="124.0" mnemonicParsing="false" onAction="#trianguloR" text="Resetear" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+    </children>
+</AnchorPane>
